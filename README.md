@@ -1,6 +1,8 @@
 # TuringMachine
 
-    You just have to give the numbr of states, they will be automatically
+<h1>!! App in development !!</h1>
+
+    You just have to give the numbzr of states, they will be automatically
     created from q0 to qn, with qyes state in addition.
 
     Transitions have to be typed according to this pattern :"q0 q1 a b lsr"
