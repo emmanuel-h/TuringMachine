@@ -1,8 +1,8 @@
 # TuringMachine
 
-    Il suffit de donner le nombre d'états, ils seront automatiquement notés de
-    q0 à qn, avec l'état qoui en plus.
+    You just have to give the numbr of states, they will be automatically
+    created from q0 to qn, with qyes state in addition.
 
-    Les transitions doivent être marquées de la forme "q0 q1 a b gmd" ce qui
-    correspond à : La transition de l'état q0 vers q1 transforme la valeur a en
-    b. gmd correspond à la direction (g = gauche, m = milieu, d=droite).
+    Transitions have to be typed according to this pattern :"q0 q1 a b lsr"
+    which means : A transition from state q0 to q1 change the a value into b.
+    lsr is the movement (l = left, s = stay, r = right).

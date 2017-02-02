@@ -8,90 +8,100 @@ import java.util.StringTokenizer;
 public class Main {
 
 
-    private static LinkedList<String> bande;
+    private static LinkedList<String> tape;
     private static int length;
-    private static int tete;
-    private static Etat[] etats;
-    private static int nb_etats;
+    private static int head_position;
+    private static String head_value;
+    private static State[] states;
+    private static int nb_states;
 
-    private static void lancer_programme() {
-        String valeur_actuelle = bande.get(tete);
+    private static boolean launch_program() {
+        head_value= tape.get(head_position);
+        int etat_actuel = 0;
+        if(!states[etat_actuel].getChild(head_value)){
+            return false;
+        }
+        Res res = states[etat_actuel].getRes(head_value);
+        if(!res.getValue().equals(head_value)){
+            tape.set(head_position,res.getValue());
+        }
+        if(res.getMovement() == 'g'){
 
+        }
+        return false;
     }
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        // Données de la bande
-        bande = new LinkedList<>();
-        System.out.println("Données de la bande");
-        String donnees = sc.nextLine();
-        length = donnees.length();
+        // Tape's data
+        tape = new LinkedList<>();
+        System.out.println("Tape's data");
+        String data = sc.nextLine();
+        length = data.length();
         String delim = " ";
-        // On découpe la ligne suivant le délimiteur "espace"
-        StringTokenizer tok = new StringTokenizer(donnees, delim);
+        // Cut the ligne relative to space char
+        StringTokenizer tok = new StringTokenizer(data, delim);
         for (; tok.hasMoreTokens();) {
-            bande.addLast(tok.nextToken().toString());
+            tape.addLast(tok.nextToken().toString());
         }
 
-        // Position de la tête de lecture
-        System.out.println("Position de la tête de lecture");
-        tete = sc.nextInt();
+        // Position of the head
+        head_position = 0;
 
-        // Donner le nombre d'états
-        System.out.println("Nombre d'états");
-        nb_etats = sc.nextInt();
+        // Number of states
+        System.out.println("Number of states");
+        nb_states = sc.nextInt();
         sc.nextLine();
-        etats = new Etat[nb_etats+1];
-        Etat etat;
-        // On rajoute tous les états de q0 à qn
-        for(int i=0 ; i<nb_etats ; i++){
-            etat = new Etat("q"+i,false);
-            etats[i]=etat;
+        states = new State[nb_states+1];
+        State state;
+        // Add all states from q0 to qn
+        for(int i=0 ; i<nb_states ; i++){
+            state = new State("q"+i,false);
+            states[i]=state;
         }
-        // On rajoute un dernier état comportant l'état acceptant
-        etats[nb_etats] = new Etat("qoui",true);
+        // Add a last state qyes which is the acceptance state
+        states[nb_states] = new State("qyes",true);
 
-        // Donner les transitions
-        // "q0 q0 1 1 gmd"
+        // Give transitions
 
         String source=null;
         String destination=null;
-        String valeur_initiale=null;
-        String valeur_finale=null;
-        char deplacement=0;
+        String initial_value=null;
+        String final_value=null;
+        char movement=0;
 
         int num_source=-1;
         int num_destination=-1;
-        Etat etat_source=null;
-        Etat etat_destination=null;
+        State state_source=null;
+        State state_destination=null;
         Res res=null;
 
-        System.out.println("Rajouter des transitions de la forme : q0 q1 a b gmd");
+        System.out.println("Add transitions following the pattern : q0 q1 a b lsr");
         String s = sc.nextLine();
-        while(!"non".equals(s)) {
+        while(!"no".equals(s)) {
             tok = new StringTokenizer(s, delim);
 
             source = tok.nextToken().toString();
             destination = tok.nextToken().toString();
-            valeur_initiale = tok.nextToken().toString();
-            valeur_finale = tok.nextToken().toString();
-            deplacement = tok.nextToken().toString().charAt(0);
+            initial_value = tok.nextToken().toString();
+            final_value = tok.nextToken().toString();
+            movement = tok.nextToken().toString().charAt(0);
 
             num_source = Integer.parseInt(source.substring(1));
             num_destination = Integer.parseInt(destination.substring(1));
-            etat_source = etats[num_source];
-            etat_destination = etats[num_destination];
-            res = new Res(etat_destination,valeur_finale,deplacement);
-            etat_source.ajouterEnfant(valeur_initiale,res);
+            state_source = states[num_source];
+            state_destination = states[num_destination];
+            res = new Res(state_destination,final_value,movement);
+            state_source.addChild(initial_value,res);
 
-            System.out.println("Rajouter les transitions. Marquer non pour finir");
+            System.out.println("Add transitions. Type no to end");
             s = sc.nextLine();
         }
-        for(int i=0 ; i<nb_etats+1 ; i++){
-            System.out.println(etats[i]);
+        for(int i=0 ; i<nb_states+1 ; i++){
+            System.out.println(states[i]);
         }
-        lancer_programme();
+        launch_program();
     }
 }

@@ -4,22 +4,30 @@ package main;
  * Created by Emmanuel H on 01/02/17.
  */
 public class Res {
-    private Etat etat;
-    private String valeur;
-    private char direction;
+    private State state;
+    private String value;
+    private char movement;
 
-    public Res(Etat etat,String valeur, char direction){
-        this.etat = etat;
-        this.valeur = valeur;
-        this.direction = direction;
+    public Res(State state, String value, char movement){
+        this.state = state;
+        this.value = value;
+        this.movement = movement;
     }
 
-    public String getValeur() {
-        return valeur;
+    public String getValue() {
+        return value;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public char getMovement() {
+        return movement;
     }
 
     @Override
     public String toString() {
-        return etat.getNom() + " " + valeur + " " + direction;
+        return state.getName() + " " + value + " " + movement;
     }
 }
